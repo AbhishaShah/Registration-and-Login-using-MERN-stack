@@ -1,0 +1,79 @@
+body {
+    color: #fff;
+    background: #4c535d;
+    font-family: 'Roboto', sans-serif;
+}
+.form-control {
+    min-height: 41px;
+    box-shadow: none;   
+    border-color: #e1e4e5;
+}
+.form-control:focus {
+    border-color: #5fcaba;
+}
+.form-control, .btn {        
+    border-radius: 3px;
+}    
+.form-box {
+    width: 400px;
+    margin: 0 auto;
+    padding: 30px 0;
+}	
+.form-box form {
+    color: #9ba5a8;
+    border-radius: 3px;
+    margin-bottom: 15px;
+    background: #fff;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+}
+.form-box h2 {
+    color: #333;
+    font-weight: bold;
+    margin-top: 0;
+}
+.form-box hr {
+    margin: 0 -30px 20px;
+}
+.form-box .form-group {
+    margin-bottom: 20px;
+}
+.form-box label {
+    font-weight: normal;
+    font-size: 13px;
+}
+.form-box .btn {        
+    font-size: 16px;
+    font-weight: bold;
+    background: #5fcaba;
+    border: none;
+    min-width: 140px;
+}
+.form-box .btn:hover, .form-box .btn:focus {
+    background: #3fc0ad;
+    outline: none !important;
+}
+.form-box a {
+    color: #fff;
+    text-decoration: underline;
+}
+.form-box a:hover {
+    text-decoration: none;
+}
+.form-box form a {
+    color: #5fcaba;
+    text-decoration: none;
+}	
+.form-box form a:hover {
+    text-decoration: underline;
+}
+.container {
+    margin-top: 150px;
+}
+.red-text {
+    color: red  ;
+}
+.name-lable {
+  text-decoration: underline;
+  color: yellowgreen;
+}

@@ -1,0 +1,41 @@
+{
+  "name": "mern-auth",
+  "version": "1.0.0",
+  "description": "Login/Registration authentication App",
+  "main": "server.js",
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "server": "npx nodemon --exec npx babel-node server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "classnames": "^2.2.6",
+    "concurrently": "^5.0.2",
+    "express": "^4.17.1",
+    "is-empty": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^2.2.0",
+    "mongoose": "^5.8.2",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "react-redux": "^7.1.3",
+    "react-router-dom": "^5.1.2",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
+    "uninstall": "0.0.0",
+    "validator": "^12.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "nodemon": "^2.0.2"
+  }
+}
