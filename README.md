@@ -3,6 +3,8 @@
 ![Final App](client/public/mern-auth.gif)
 User Registration and Login functionality with validations using React, NodeJs, ExpressJs and MongoDB and authentication using passport and JWTs.
 
+Live Demo: https://mern-login-register.herokuapp.com/
+
 This project uses the following technologies:
 
 - [React](https://reactjs.org) and [React Router](https://reacttraining.com/react-router/) for frontend
@@ -25,5 +27,6 @@ npm install && npm run client-install
 npm run dev
 
 // Server runs on http://localhost:5000 and client on http://localhost:3000
+
 ```
 
