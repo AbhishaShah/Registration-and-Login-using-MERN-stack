@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
-    "startt":"npx nodemon --exec npx babel-node server.js",
-    "start": "node server.js",
+    "start":"npx nodemon --exec npx babel-node server.js",
     "heroku-postbuild": "cd client && npm install && npm install && npm run build",
     "server": "npx nodemon --exec npx babel-node server.js",
     "client": "npm start --prefix client",
