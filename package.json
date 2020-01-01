@@ -5,11 +5,12 @@
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
-    "start": "./node_modules/.bin/babel-node  server.js",
-    "server": "npx nodemon --exec npx ./node_modules/.bin/babel-node server.js",
+    "start":"npx nodemon --exec npx babel-node server.js",
+    "startt": "./node_modules/.bin/babel-node  server.js",
+    "server": "npx nodemon --exec npx babel-node server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
