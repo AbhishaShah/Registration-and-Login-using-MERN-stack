@@ -1,5 +1,5 @@
-const { connect } = require("mongoose");
-const dotenv = require("dotenv");
+import { connect } from "mongoose";
+import dotenv from "dotenv";
 dotenv.config();
 
 /**

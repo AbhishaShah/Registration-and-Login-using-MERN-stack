@@ -1,9 +1,8 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const passport = require("passport");
-const path = require("path");
-
-const users = require("./routes/api/users");
+import path from "path";
+import express from "express";
+import bodyParser from "body-parser";
+import passport from "passport";
+import {} from "./routes/api/users";
 const { connectDB } = require("./config/connectDB");
 
 const app = express();
