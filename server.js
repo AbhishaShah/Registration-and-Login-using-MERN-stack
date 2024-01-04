@@ -1,51 +1,34 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const passport = require("passport");
-const path = require("path");
-
-const users = require("./routes/api/users");
+import path from "path";
+import express from "express";
+import bodyParser from "body-parser";
+import passport from "passport";
+import { UserRoutes } from "./routes/index.js";
+import { connectDB, passport as passConfig } from "./config/index.js";
 
 const app = express();
-
+app.use(express.json());
 // Bodyparser middleware
 app.use(
-    bodyParser.urlencoded({
-      extended: false
-    })
-  );
-
+  bodyParser.urlencoded({
+    extended: false,
+  })
+);
 app.use(bodyParser.json());
-
-const dbURL =  "mongodb://localhost:27017/mern-auth";
-
-//connect to MongoDB
-mongoose
-    .connect(process.env.MONGODB_URI || dbURL,
-    { useUnifiedTopology:true, useNewUrlParser: true }
-    )
-    .then(() => console.log("MongoDB successfully connected"))
-    .catch(err => console.log(err));
-
 // Passport middleware
 app.use(passport.initialize());
-
-// Passport config
-require("./config/passport")(passport);
+passConfig(passport);
 
 // Routes
-app.use("/api/users", users);
+app.use("/api/users", UserRoutes);
 
-if(process.env.NODE_ENV === 'production') {
-   
-  app.use(express.static(path.join(__dirname, "client", "build")))
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "client", "build")));
 
-  app.get('*',(req, res) => {
-      res.sendFile(path.join(__dirname,'client','build','index.html'));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
   });
 }
 
-
 const port = process.env.PORT || 5000;
-
-app.listen(port,()=>console.log(`Server up and running on port ${port}`));
+connectDB();
+app.listen(port, () => console.log(`Server up and running on port ${port}`));
