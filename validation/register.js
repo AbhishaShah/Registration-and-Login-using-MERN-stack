@@ -45,5 +45,6 @@ export const validateRegisterInput = (data) => {
 
   return {
     errors,
+    isValid: errors ? true : false,
   };
 };

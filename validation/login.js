@@ -1,6 +1,11 @@
 import Validator from "validator";
 
-module.exports = function validateLoginInput(data) {
+/**
+ *
+ * @param {object} data Request body object
+ * @returns {object}
+ */
+export const validateLoginInput = (data) => {
   let errors = {};
 
   data.email = data.email ?? "";
@@ -20,5 +25,6 @@ module.exports = function validateLoginInput(data) {
 
   return {
     errors,
+    isValid: errors ? true : false,
   };
 };

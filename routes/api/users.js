@@ -2,21 +2,17 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import keys from "../../config/keys";
-
-// Load input validation
-const validateRegisterInput = require("../../validation/register");
-const validateLoginInput = require("../../validation/login");
-
-// Load User model
-const User = require("../../models/UserSchema");
+import { validateLoginInput, validateRegisterInput } from "../../validation";
+import { User } from "../../models";
 
 // @route POST api/users/register
 // @desc Register user
 // @access Public
+const routes = Router();
 
-router.post("/register", (req, res) => {
+routes.post("/register", (req, res) => {
   //Form validation
-  const { errors, isValid } = validateRegisterInput(req.body);
+  const { errors } = validateRegisterInput(req.body);
 
   if (!isValid) {
     return res.status(400).json(errors);
@@ -52,7 +48,7 @@ router.post("/register", (req, res) => {
 // @desc Login user and return JWT token
 // @access Public
 
-router.post("/login", (req, res) => {
+routes.post("/login", (req, res) => {
   //Form Valdiation
   const { errors, isValid } = validateLoginInput(req.body);
 
@@ -101,4 +97,4 @@ router.post("/login", (req, res) => {
   });
 });
 
-module.exports = router;
+export default routes;
