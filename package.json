@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
-    "start":"npx nodemon --exec npx babel-node server.js",
+    "start": "npx nodemon --exec npx babel-node server.js",
     "heroku-postbuild": "cd client && npm install && npm install && npm run build",
     "server": "npx nodemon --exec npx babel-node server.js",
     "client": "npm start --prefix client",
@@ -20,6 +20,7 @@
     "body-parser": "^1.19.0",
     "classnames": "^2.2.6",
     "concurrently": "^5.0.2",
+    "dotenv": "^16.3.1",
     "express": "^4.17.1",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
@@ -40,7 +41,7 @@
     "@babel/preset-env": "^7.7.7",
     "nodemon": "^2.0.2"
   },
-  "engines":{
-    "node":"12.13.1"
+  "engines": {
+    "node": "12.13.1"
   }
 }

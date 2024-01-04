@@ -4,3 +4,4 @@ package-lock.json
 /client/build
 pnpm-lock.yaml
 package-lock.json
+.env
