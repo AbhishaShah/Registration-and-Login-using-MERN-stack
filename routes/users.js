@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { hash, compare } from "bcrypt";
-import { sign } from "jsonwebtoken";
-import keys from "../../config/keys";
-import { validateLoginInput, validateRegisterInput } from "../../validation";
-import { User } from "../../models";
+import jwt from "jsonwebtoken";
+import {
+  validateLoginInput,
+  validateRegisterInput,
+} from "../validation/index.js";
+import { User } from "../models/index.js";
 
 // @route POST api/users/register
 // @desc Register user
@@ -60,7 +62,7 @@ routes.post("/login", async (req, res) => {
     };
 
     // Sign token
-    sign(
+    jwt.sign(
       payload,
       keys.secretOrKey,
       {

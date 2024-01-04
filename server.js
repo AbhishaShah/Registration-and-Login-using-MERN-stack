@@ -2,32 +2,24 @@ import path from "path";
 import express from "express";
 import bodyParser from "body-parser";
 import passport from "passport";
-import {} from "./routes/api/users";
-const { connectDB } = require("./config/connectDB");
+import { UserRoutes } from "./routes/index.js";
+import { connectDB, passport as passConfig } from "./config/index.js";
 
 const app = express();
-
+app.use(express.json());
 // Bodyparser middleware
 app.use(
   bodyParser.urlencoded({
     extended: false,
   })
 );
-
 app.use(bodyParser.json());
-
-const dbURL = "mongodb://localhost:27017/mern-auth";
-
-connectDB(dbURL);
-
 // Passport middleware
 app.use(passport.initialize());
-
-// Passport config
-require("./config/passport")(passport);
+passConfig(passport);
 
 // Routes
-app.use("/api/users", users);
+app.use("/api/users", UserRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client", "build")));
@@ -38,5 +30,5 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const port = process.env.PORT || 5000;
-
+connectDB();
 app.listen(port, () => console.log(`Server up and running on port ${port}`));
