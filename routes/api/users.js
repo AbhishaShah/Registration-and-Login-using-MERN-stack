@@ -1,6 +1,6 @@
 import { Router } from "express";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import { hash, compare } from "bcrypt";
+import { sign } from "jsonwebtoken";
 import keys from "../../config/keys";
 import { validateLoginInput, validateRegisterInput } from "../../validation";
 import { User } from "../../models";
@@ -10,91 +10,74 @@ import { User } from "../../models";
 // @access Public
 const routes = Router();
 
-routes.post("/register", (req, res) => {
+routes.post("/register", async (req, res) => {
+  const { email, name, password } = req.body;
   //Form validation
-  const { errors } = validateRegisterInput(req.body);
+  const { errors, isValid } = validateRegisterInput(req.body);
+  if (isValid) return res.status(400).json(errors);
 
-  if (!isValid) {
-    return res.status(400).json(errors);
+  const hashPassword = await hash(password, 10);
+  try {
+    const user = await User.findOne({ email });
+    if (user) return res.status(400).json({ email: "Email already exists" });
+    const newUser = new User({
+      name,
+      password: hashPassword,
+      email,
+    });
+    const createdUser = await newUser.save();
+    res.status(201).json(createdUser);
+  } catch (err) {
+    res.status(500).json(err);
   }
-
-  User.findOne({ email: req.body.email }).then((user) => {
-    if (user) {
-      return res.status(400).json({ email: "Email already exists" });
-    } else {
-      const newUser = new User({
-        name: req.body.name,
-        password: req.body.password,
-        email: req.body.email,
-      });
-
-      // Hash password before storing in database
-      const rounds = 10;
-      bcrypt.genSalt(rounds, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          newUser.password = hash;
-          newUser
-            .save()
-            .then((user) => res.json(user))
-            .catch((err) => console.log(err));
-        });
-      });
-    }
-  });
 });
 
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
 
-routes.post("/login", (req, res) => {
+routes.post("/login", async (req, res) => {
+  const { email, password } = req.body;
   //Form Valdiation
   const { errors, isValid } = validateLoginInput(req.body);
+  if (isValid) return res.status(400).json(errors);
 
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
-
-  const email = req.body.email;
-  const password = req.body.password;
-
-  //Find user by Email
-  User.findOne({ email }).then((user) => {
-    if (!user) {
+  try {
+    //Find user by Email
+    const user = await User.findOne({ email });
+    if (!user)
       return res.status(404).json({ emailnotfound: "Email not found" });
-    }
 
     // Check password
-    bcrypt.compare(password, user.password).then((isMatch) => {
-      if (isMatch) {
-        // Create JWT Payload
-        const payload = {
-          id: user.id,
-          name: user.name,
-        };
+    const isMatchPassword = await compare(password, user.password);
+    if (!isMatchPassword)
+      return res.status(400).json({ passwordincorrect: "Password incorrect" });
 
-        // Sign token
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          {
-            expiresIn: 31556926,
-          },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: "Bearer " + token,
-            });
-          }
-        );
-      } else {
-        return res
-          .status(400)
-          .json({ passwordincorrect: "Password incorrect" });
+    // Create JWT Payload
+    const payload = {
+      id: user.id,
+      name: user.name,
+    };
+
+    // Sign token
+    sign(
+      payload,
+      keys.secretOrKey,
+      {
+        expiresIn: "7d",
+      },
+      (err, token) => {
+        if (err) return res.status(500).json(err);
+
+        res.json({
+          success: true,
+          token: "Bearer " + token,
+        });
       }
-    });
-  });
+    );
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 export default routes;
